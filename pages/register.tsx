@@ -1,8 +1,8 @@
 import { useState, FormEvent } from "react";
-import fetch from 'isomorphic-unfetch';
 import Layout from "../components/Layout";
+import { NextPage } from "next";
 
-const RegisterPage: React.FunctionComponent<{}> = () => {
+const RegisterPage: NextPage = () => {
     const [error, setError] = useState('');
 
     const handleSubmit = async (e: FormEvent) => {

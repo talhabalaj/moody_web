@@ -1,13 +1,10 @@
 import { IApiError } from "../IApiError";
+import { IUserInfo } from "../user/IUserInfo";
 
 export interface IAuth {
     isLoading: boolean,
-    tokenInfo: IAuthInfo | null,
+    isAuthenticated: boolean,
+    user: IUserInfo | null
     error?: IApiError | Error
 }
 
-export interface IAuthInfo {
-    user: string,
-    isValid: boolean,
-    token: string,
-}

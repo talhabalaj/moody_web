@@ -30,6 +30,9 @@ const Layout: React.FunctionComponent<Props> = ({
           <Link href="/register">
             <a>Register</a>
           </Link>{' '}
+          <Link href="/logout">
+            <a>Logout</a>
+          </Link>{' '}
         </nav>
       </header>
       {children}

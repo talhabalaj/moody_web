@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
 
 import Layout from "../components/Layout";
-import { connect, useSelector } from "react-redux";
-import { loginRequest } from "../lib/thunks";
+import { connect } from "react-redux";
+import { loginRequest } from "../lib/redux/thunks";
 import { ThunkDispatch } from "redux-thunk";
 import { FormEvent } from 'react';
 import { IAuth } from '../interfaces/state/IAuth';
@@ -15,9 +15,8 @@ interface LoginPageProps {
     auth: IAuth,
 }
 
-const LoginPage: NextPage<LoginPageProps> = ({ submitForm }) => {
+const LoginPage: NextPage<LoginPageProps> = ({ auth, submitForm }) => {
     const router = useRouter();
-    const auth = useSelector((state: RootState) => state.auth);
 
     let content = (
         <form onSubmit={(event) => submitForm(event)}>
@@ -44,7 +43,7 @@ const LoginPage: NextPage<LoginPageProps> = ({ submitForm }) => {
 
     if (auth.isLoading) {
         content = <h2>Loading</h2>
-    } else if (auth.tokenInfo) {
+    } else if (auth.isAuthenticated) {
         content = <p>Redirecting to /profile</p>;
         router.push('/profile');
     }
@@ -57,8 +56,13 @@ const LoginPage: NextPage<LoginPageProps> = ({ submitForm }) => {
 }
 
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, void, IAction<any>>) => ({
-    submitForm: (event: FormEvent) => dispatch(loginRequest(event)),
-})
+const mapStateToProps = (state: RootState) =>
+    ({ auth: state.auth });
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+const mapDispatchToProps = (dispatch: ThunkDispatch<RootState, void, IAction<any>>) =>
+    ({
+        submitForm: (event: FormEvent) =>
+            dispatch(loginRequest(event)),
+    })
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
