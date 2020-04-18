@@ -17,9 +17,6 @@ const LogoutPage: NextPage = () => {
         router?.push('/');
         return <p>Not logged in...</p>
     }
-
-
-
 }
 
 export default LogoutPage;
