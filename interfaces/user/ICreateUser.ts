@@ -5,4 +5,5 @@ export interface ICreateUser {
     email: string,
     userName: string,
     password: string,
+    cfnPassword: string,
 }

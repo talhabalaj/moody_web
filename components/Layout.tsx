@@ -1,6 +1,8 @@
 import * as React from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
+import { useSelector } from 'react-redux'
+import { RootState } from '../interfaces/state'
 
 type Props = {
   title?: string
@@ -9,8 +11,16 @@ type Props = {
 const Layout: React.FunctionComponent<Props> = ({
   children,
   title = 'This is the default title',
-}) => (
+}) => {
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  return (
     <div>
+      <style jsx>{`
+        a:not(:last-child) {
+          margin-right: 10px;
+        }
+      `}
+      </style>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
@@ -20,19 +30,19 @@ const Layout: React.FunctionComponent<Props> = ({
         <nav>
           <Link href="/">
             <a>Home</a>
-          </Link>{' '}
-          <Link href="/profile">
+          </Link>
+          {isAuthenticated && <Link href="/profile">
             <a>Profile</a>
-          </Link>{' '}
-          <Link href="/login">
+          </Link>}
+          {!isAuthenticated && <Link href="/login">
             <a>Login</a>
-          </Link>{' '}
-          <Link href="/register">
+          </Link>}
+          {!isAuthenticated && <Link href="/register">
             <a>Register</a>
-          </Link>{' '}
-          <Link href="/logout">
+          </Link>}
+          {isAuthenticated && <Link href="/logout">
             <a>Logout</a>
-          </Link>{' '}
+          </Link>}
         </nav>
       </header>
       {children}
@@ -41,6 +51,7 @@ const Layout: React.FunctionComponent<Props> = ({
         <span>I'm here to stay (Footer)</span>
       </footer>
     </div>
-  )
+  );
+}
 
 export default Layout
